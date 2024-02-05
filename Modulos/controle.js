@@ -277,8 +277,9 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
         dataAtualElement.textContent = 'Entregas do dia: ' + dataFormatada;
 //---------------------------------------------------------------------------------------------------
 
-        // Inicialize a variável para armazenar a soma da quantidade
+        // Inicialize a variável para armazenar a soma
         let somaQtd = 0;
+        let somaValor = 0;
 
         // Itere sobre os registros e calcule a soma da quantidade
         registrosEntregas.forEach((registro) => {
@@ -287,15 +288,19 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             const dataAtualFormatada = dataAtual.toLocaleDateString();
 
             if (dataRegistro === dataAtualFormatada) {
-                // Converta o valor da quantidade para número antes de somar
+                // Converta o valor para número antes de somar
                 somaQtd += parseInt(registro.data().qtd, 10);
+                somaValor += parseInt(registro.data().valor, 10);
             }
         });
         const contagemTotal = document.getElementById('contagemTotal');
-        //console.log('Soma da quantidade do dia atual:', somaQtd);
+        const valorTotal = document.getElementById('valorTotal');
+    
         contagemTotal.textContent = somaQtd;
+        valorTotal.textContent = 'R$ ' + somaValor;
 //---------------------------------------------------------------------------------------------------
         let somaQtdDinheiro = 0;
+        let somaValorDinheiro = 0;
 
         // Obtenha a data atual formatada
         const dataAtualFormatada = new Date().toLocaleDateString();
@@ -309,15 +314,19 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             if (dataRegistro === dataAtualFormatada && (registro.data().pagamento.includes('Dinheiro') || registro.data().pagamento.includes('Dinheiro Trocado'))) {
                 // Converta o valor da quantidade para número antes de somar
                 somaQtdDinheiro += parseInt(registro.data().qtd, 10);
+                somaValorDinheiro += parseInt(registro.data().valor, 10);
             }
         });
 
         const contagemDinheiro = document.getElementById('contagemDinheiro');
-        //console.log('Soma da quantidade do dia atual:', somaQtd);
+        const valorDinheiro = document.getElementById('valorDinheiro');
+        
         contagemDinheiro.textContent = somaQtdDinheiro;
+        valorDinheiro.textContent = 'R$ ' + somaValorDinheiro;
 
 //---------------------------------------------------------------------------------------------------
             let somaQtdPix = 0;
+            let somaValorPix = 0;
 
             // Itere sobre os registros e calcule a soma da quantidade para pagamento "Dinheiro"
             registrosEntregas.forEach((registro) => {
@@ -328,14 +337,18 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
                 if (dataRegistro === dataAtualFormatada && registro.data().pagamento === 'Pix') {
                     // Converta o valor da quantidade para número antes de somar
                     somaQtdPix += parseInt(registro.data().qtd, 10);
+                    somaValorPix += parseInt(registro.data().valor, 10);
                 }
             });
 
             const contagemPix = document.getElementById('contagemPix');
+            const valorPix = document.getElementById('valorPix');
             //console.log('Soma da quantidade do dia atual:', somaQtd);
             contagemPix.textContent = somaQtdPix;
+            valorPix.textContent = 'R$ ' + somaValorPix;
 //---------------------------------------------------------------------------------------------------
             let somaQtdCartao = 0;
+            let somaValorCartao = 0;
 
             // Itere sobre os registros e calcule a soma da quantidade para pagamento "Dinheiro"
             registrosEntregas.forEach((registro) => {
@@ -346,12 +359,15 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
                 if (dataRegistro === dataAtualFormatada && registro.data().pagamento === 'Cartão') {
                     // Converta o valor da quantidade para número antes de somar
                     somaQtdCartao += parseInt(registro.data().qtd, 10);
+                    somaValorCartao += parseInt(registro.data().valor, 10);
                 }
             });
 
             const contagemCartao = document.getElementById('contagemCartao');
+            const valorCartao = document.getElementById('valorCartao');
             //console.log('Soma da quantidade do dia atual:', somaQtd);
             contagemCartao.textContent = somaQtdCartao;
+            valorCartao.textContent = 'R$ ' + somaValorCartao;
 //---------------------------------------------------------------------------------------------------
 
             })

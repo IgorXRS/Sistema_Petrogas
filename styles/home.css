@@ -110,7 +110,7 @@ table {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
     padding-top:  30px;
 }
 
@@ -153,4 +153,8 @@ table {
 .total > p{
     font-size: 13px;
     font-weight: 800;
+}
+
+.contagemValor{
+    transform: translateY(20px);
 }
