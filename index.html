@@ -83,7 +83,10 @@
                 conquistas!</p>
         </div>
         <div class="container-home-02">
-            <h2>CONTÁGEM DO DIA</h2>
+            <div class="resumoTitulo">
+                <i onclick="telaCheia();" class="bi bi-arrows-angle-expand "></i>
+                <h2>CONTÁGEM DO DIA</h2>
+            </div>
             <div class="resumo">
                 <div class="cartao">
                     <h2 id="contagemCartao">0</h2>
@@ -121,7 +124,7 @@
                             <th>Entregador</th>
                         </tr>
                     </thead>
-                    <tbody id="tabelaRegistros">
+                    <tbody class="tableRegist" id="tabelaRegistros">
                         <!-- Linhas da tabela serão adicionadas dinamicamente aqui -->
                     </tbody>
                 </table>
@@ -322,6 +325,7 @@ function previews() {
 <script type="module" src="./Modulos/ReciboContato.js"></script>
 <script type="module" src="./Modulos/controle.js"></script>
 <script src="./js/menuLateral.js"></script>
+<script src="./Modulos/home.js"></script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
