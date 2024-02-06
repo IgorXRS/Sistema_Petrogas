@@ -73,13 +73,26 @@
     overflow: auto;
 }
 
+.resumoTitulo {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+}
+
+.resumoTitulo > i{
+    color: white;
+    font-weight: 800;
+    padding-right: 20%;
+    cursor: pointer;
+}
+
 th{
     color: var(--corDark);
     font-weight: 800;
     text-transform: uppercase;
     border: 1px solid rgb(0, 60, 255);
     padding: 5px;
-    font-size: 10px;
+    font-size: 65%;
     font-family: Arial, Helvetica, sans-serif;
     background: rgb(189, 182, 255);
 }
@@ -89,7 +102,9 @@ td{
     text-transform: uppercase;
     border: 1px solid rgb(0, 60, 255);
     padding: 5px;
-    font-size: 10px;
+    font-size: 60%;
+    width: 80%;
+    margin: auto;
     font-family: Arial, Helvetica, sans-serif;
     background: rgb(255, 255, 255);
 }
@@ -158,3 +173,26 @@ table {
 .contagemValor{
     transform: translateY(20px);
 }
+
+.Ocultar {
+    display: none;
+}
+
+.telaCheia {
+    height: 98%;
+    width: 98%;
+}
+
+.telaCheia > .home-infor{
+    padding-left: 78px;  
+}
+
+.telaCheia > .resumoTitulo > i {
+    padding-right: 35%;
+}
+
+.telaCheia > .tabela > table{
+    width: 80%;
+    font-size: 30px;
+}
+
