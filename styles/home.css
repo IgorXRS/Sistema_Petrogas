@@ -61,9 +61,7 @@
 
 #data-atual{
     font-size: 20px;
-    justify-content: left;
     width: 250px;
-    padding-left: 22px;
 }
 
 .tabela{
@@ -234,4 +232,9 @@ table {
     cursor: pointer;
     background: var(--corCleanFosc);
     width: 100px;
+}
+
+.home-infor{
+    display: flex;
+    align-items: center;
 }

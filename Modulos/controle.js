@@ -226,7 +226,7 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
                  item.style.display = correspondeAoFiltro ? 'block' : 'none';
              });
          });
-//---------------------------------------------------------------------------------------------------
+//--------------------------  Excluir Elemento -------------------------------------------------------------------------
         var excluiRegistros = document.querySelectorAll('.excluir-btn');
 
         excluiRegistros.forEach(element => {
@@ -238,31 +238,40 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             })
         });
 //---------------------------------------------------------------------------------------------------
-        // Limpar o conteúdo atual da tabela
-        tabelaRegistros.innerHTML = "";
+        const filtroDataInput = document.getElementById('filtroData');
 
-        // Iterar sobre os documentos recuperados do Firestore
-        data.forEach((doc) => {
-            const registro = doc.data();
+       // Função para aplicar o filtro de acordo com a data especificada
+        function aplicarFiltro(dataFiltro) {
+            // Limpar o conteúdo atual da tabela
+            tabelaRegistros.innerHTML = "";
 
-            // Criar uma nova linha na tabela
-            const novaLinha = document.createElement('tr');
+            // Iterar sobre os documentos recuperados do Firestore
+            data.forEach((doc) => {
+                const registro = doc.data();
 
-            // Preencher as células da linha com os dados do documento
-            novaLinha.innerHTML = `
-                <td>${registro.cliente}</td>
-                <td>${registro.pagamento}</td>
-                <td>${registro.qtd}</td>
-                <td>R$ ${registro.valor}</td>
-                <td>${new Date(registro.horario).toLocaleDateString()}</td>
-                <td>${registro.entregador}</td>
-            `;
+                // Verificar se a data do registro corresponde à data do filtro ou se não há filtro
+                if (!dataFiltro || new Date(registro.horario).toLocaleDateString() === dataFiltro) {
+                    // Criar uma nova linha na tabela
+                    const novaLinha = document.createElement('tr');
 
-            // Adicionar a nova linha à tabela
-            tabelaRegistros.appendChild(novaLinha);
-        });
+                    // Preencher as células da linha com os dados do documento
+                    novaLinha.innerHTML = `
+                        <td>${registro.cliente}</td>
+                        <td>${registro.pagamento}</td>
+                        <td>${registro.qtd}</td>
+                        <td>R$ ${registro.valor}</td>
+                        <td>${new Date(registro.horario).toLocaleDateString()}</td>
+                        <td>${registro.entregador}</td>
+                    `;
+
+                    // Adicionar a nova linha à tabela
+                    tabelaRegistros.appendChild(novaLinha);
+                }
+            });
+        }
+
 //---------------------------------------------------------------------------------------------------
-
+      /*
         // Obtém a referência para o elemento <p> da data atual
         const dataAtualElement = document.getElementById('data-atual');
 
@@ -275,8 +284,10 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
 
         // Atualiza o conteúdo do elemento <p> com a data atual
         dataAtualElement.textContent = 'Entregas do dia: ' + dataFormatada;
+        */
 //---------------------------------------------------------------------------------------------------
 
+        function somaTotal (dataFiltro){
         // Inicialize a variável para armazenar a soma
         let somaQtd = 0;
         let somaValor = 0;
@@ -285,9 +296,8 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
         registrosEntregas.forEach((registro) => {
             // Verifique se o registro é do dia atual
             const dataRegistro = new Date(registro.data().horario).toLocaleDateString();
-            const dataAtualFormatada = dataAtual.toLocaleDateString();
 
-            if (dataRegistro === dataAtualFormatada) {
+            if (dataRegistro === dataFiltro) {
                 // Converta o valor para número antes de somar
                 somaQtd += parseInt(registro.data().qtd, 10);
                 somaValor += parseInt(registro.data().valor, 10);
@@ -298,12 +308,16 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
     
         contagemTotal.textContent = somaQtd;
         valorTotal.textContent = 'R$ ' + somaValor;
-//---------------------------------------------------------------------------------------------------
-        let somaQtdDinheiro = 0;
-        let somaValorDinheiro = 0;
+        };
 
+//-------------------------------------------------------------------------------------------------
         // Obtenha a data atual formatada
         const dataAtualFormatada = new Date().toLocaleDateString();
+
+//---------------------------------------------------------------------------------------------------
+        function somaDinheiro (dataFiltro){
+        let somaQtdDinheiro = 0;
+        let somaValorDinheiro = 0;
 
         // Itere sobre os registros e calcule a soma da quantidade para pagamento "Dinheiro" ou "Dinheiro Trocado"
         registrosEntregas.forEach((registro) => {
@@ -311,7 +325,7 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             const dataRegistro = new Date(registro.data().horario).toLocaleDateString();
 
             // Verifique se o registro é do dia atual e a forma de pagamento inclui "Dinheiro"
-            if (dataRegistro === dataAtualFormatada && (registro.data().pagamento.includes('Dinheiro') || registro.data().pagamento.includes('Dinheiro Trocado'))) {
+            if (dataRegistro === dataFiltro && (registro.data().pagamento.includes('Dinheiro') || registro.data().pagamento.includes('Dinheiro Trocado'))) {
                 // Converta o valor da quantidade para número antes de somar
                 somaQtdDinheiro += parseInt(registro.data().qtd, 10);
                 somaValorDinheiro += parseInt(registro.data().valor, 10);
@@ -323,8 +337,10 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
         
         contagemDinheiro.textContent = somaQtdDinheiro;
         valorDinheiro.textContent = 'R$ ' + somaValorDinheiro;
+        };
 
 //---------------------------------------------------------------------------------------------------
+        function somaPix (dataFiltro){
             let somaQtdPix = 0;
             let somaValorPix = 0;
 
@@ -334,7 +350,7 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
                 const dataRegistro = new Date(registro.data().horario).toLocaleDateString();
 
                 // Verifique se o registro é do dia atual e o pagamento é "Dinheiro"
-                if (dataRegistro === dataAtualFormatada && registro.data().pagamento === 'Pix') {
+                if (dataRegistro === dataFiltro && registro.data().pagamento === 'Pix') {
                     // Converta o valor da quantidade para número antes de somar
                     somaQtdPix += parseInt(registro.data().qtd, 10);
                     somaValorPix += parseInt(registro.data().valor, 10);
@@ -346,7 +362,9 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             //console.log('Soma da quantidade do dia atual:', somaQtd);
             contagemPix.textContent = somaQtdPix;
             valorPix.textContent = 'R$ ' + somaValorPix;
+        };
 //---------------------------------------------------------------------------------------------------
+    function somaCartao (dataFiltro){
             let somaQtdCartao = 0;
             let somaValorCartao = 0;
 
@@ -356,7 +374,7 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
                 const dataRegistro = new Date(registro.data().horario).toLocaleDateString();
 
                 // Verifique se o registro é do dia atual e o pagamento é "Dinheiro"
-                if (dataRegistro === dataAtualFormatada && registro.data().pagamento === 'Cartão') {
+                if (dataRegistro === dataFiltro && registro.data().pagamento === 'Cartão') {
                     // Converta o valor da quantidade para número antes de somar
                     somaQtdCartao += parseInt(registro.data().qtd, 10);
                     somaValorCartao += parseInt(registro.data().valor, 10);
@@ -368,7 +386,44 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             //console.log('Soma da quantidade do dia atual:', somaQtd);
             contagemCartao.textContent = somaQtdCartao;
             valorCartao.textContent = 'R$ ' + somaValorCartao;
+    };
 //---------------------------------------------------------------------------------------------------
+
+
+        // Evento de filtro inicial ---------------------------------------------------------
+        function  filterInital () {
+            // Obtenha a data atual
+            const dataAtual = new Date();
+
+            // Formate a data atual para o valor esperado no input (por exemplo, "yyyy-mm-dd")
+            const formatoData = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const dataAtualFormatada = dataAtual.toLocaleDateString(undefined, formatoData);
+
+            // Defina o valor padrão no input filtroData
+            filtroDataInput.value = dataAtualFormatada;
+
+            // Aplicar o filtro inicialmente
+            aplicarFiltro(dataAtualFormatada);
+            somaTotal(dataAtualFormatada);
+            somaDinheiro(dataAtualFormatada);
+            somaPix(dataAtualFormatada);
+            somaCartao(dataAtualFormatada);
+        };
+
+        filterInital();
+
+        // Evento de escuta ao input filtroData para aplicar o filtro quando a data é alterada--------
+        filtroDataInput.addEventListener('change', function () {
+            // Obtenha o valor do input filtroData
+            const dataFiltro = filtroDataInput.value;
+
+            // Aplicar o filtro quando a data é alterada
+            aplicarFiltro(dataFiltro);
+            somaTotal(dataFiltro);
+            somaDinheiro(dataFiltro);
+            somaPix(dataFiltro);
+            somaCartao(dataFiltro);
+        });
 
             })
   }
