@@ -513,6 +513,7 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
                         <li>
                             <strong>${dia.data}:</strong> 
                             R$ ${dia.valorTotal.toFixed(2)} (Quantidade: ${dia.qtdTotal})
+                            <p style="width: calc(${dia.qtdTotal}px + 20px);" class="barra"></p>
                         </li>`
                     ).join('')}
                 </ul>
@@ -547,7 +548,6 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             janelaImprimir.document.close();
             janelaImprimir.print();
         });
-
             })
   }
 })
