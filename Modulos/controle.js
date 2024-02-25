@@ -271,21 +271,6 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
         }
 
 //---------------------------------------------------------------------------------------------------
-      /*
-        // Obtém a referência para o elemento <p> da data atual
-        const dataAtualElement = document.getElementById('data-atual');
-
-        // Obtém a data atual
-        const dataAtual = new Date();
-
-        // Formata a data atual para exibição (por exemplo, "dd/mm/aaaa")
-        const formatoData = { day: 'numeric', month: 'numeric', year: 'numeric' };
-        const dataFormatada = dataAtual.toLocaleDateString(undefined, formatoData);
-
-        // Atualiza o conteúdo do elemento <p> com a data atual
-        dataAtualElement.textContent = 'Entregas do dia: ' + dataFormatada;
-        */
-//---------------------------------------------------------------------------------------------------
 
         function somaTotal (dataFiltro){
         // Inicialize a variável para armazenar a soma
@@ -387,10 +372,9 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             contagemCartao.textContent = somaQtdCartao;
             valorCartao.textContent = 'R$ ' + somaValorCartao;
     };
-//---------------------------------------------------------------------------------------------------
 
-
-        // Evento de filtro inicial ---------------------------------------------------------
+// -------------------------------------------Evento de filtro inicial ---------------------------------------------------------
+       
         function  filterInital () {
             // Obtenha a data atual
             const dataAtual = new Date();
@@ -423,6 +407,145 @@ db.collection('registrosEntregas').where("userId","==",usuario.uid).onSnapshot((
             somaDinheiro(dataFiltro);
             somaPix(dataFiltro);
             somaCartao(dataFiltro);
+        });
+//-------------------------------------------------------------------------------------------------------
+
+        
+        document.getElementById('imprimirRelatorio').addEventListener('click', function () {
+            // Lógica para gerar e exibir o relatório
+            gerarRelatorio();
+        });
+
+        function gerarRelatorio() {
+            // Obtenha as datas selecionadas (você pode usar um modal para a entrada de datas)
+            const dataInicio = document.getElementById('dataInicio').value; // Substitua 'dataInicio' pelo ID real do campo
+            const dataFim = document.getElementById('dataFim').value; // Substitua 'dataFim' pelo ID real do campo
+
+           // Ajuste para incluir o último dia corretamente
+            const dataFimAjustada = new Date(dataFim);
+            dataFimAjustada.setDate(dataFimAjustada.getDate() + 1);
+
+            // Consulte o Firestore para obter dados entre as datas selecionadas
+            db.collection('registrosEntregas')
+                .where('horario', '>=', new Date(dataInicio).getTime())
+                .where('horario', '<=', dataFimAjustada.getTime())
+                .get()
+                .then((querySnapshot) => {
+                    // Processar os resultados da consulta e gerar relatório
+                    const relatorioData = processarDados(querySnapshot);
+
+                    // Exibir relatório em um modal
+                    exibirRelatorioNoModal(relatorioData);
+                })
+                .catch((error) => {
+                    console.error('Erro ao obter dados do Firestore:', error);
+                });
+        }
+
+        function processarDados(querySnapshot) {
+            let relatorioData = {
+                total: 0,
+                totalQtd: 0,
+                totalDinheiro: 0,
+                totalCartao: 0,
+                totalPix: 0,
+                dadosPorDia: [],
+            };
+
+            querySnapshot.forEach((doc) => {
+                const registro = doc.data();
+                const valor = parseInt(registro.valor, 10);
+                const qtd = parseInt(registro.qtd, 10);
+
+                relatorioData.total += valor;
+                relatorioData.totalQtd += qtd;
+
+                if (registro.pagamento.includes('Dinheiro')) {
+                    relatorioData.totalDinheiro += valor;
+                } else if (registro.pagamento === 'Cartão') {
+                    relatorioData.totalCartao += valor;
+                } else if (registro.pagamento === 'Pix') {
+                    relatorioData.totalPix += valor;
+                }
+
+                const dataRegistro = new Date(registro.horario).toLocaleDateString();
+
+                // Verifique se já existe uma entrada para este dia
+                const diaExistente = relatorioData.dadosPorDia.find((dia) => dia.data === dataRegistro);
+
+                if (diaExistente) {
+                    diaExistente.valorTotal += valor;
+                    diaExistente.qtdTotal += qtd;
+                } else {
+                    relatorioData.dadosPorDia.push({ data: dataRegistro, valorTotal: valor, qtdTotal: qtd });
+                }
+                 
+            });
+
+            
+            console.log(relatorioData)
+
+            return relatorioData;
+            
+        }
+
+        // Função para exibir o relatório no modal
+        function exibirRelatorioNoModal(relatorioData) {
+            // Atualiza o conteúdo do modal com o HTML do relatório
+            const modalContent = document.getElementById('relatorioConteudo');
+            
+                    // Monta o HTML do relatório
+            const relatorioHTML = `
+            <div class="relatorioHTML">
+                <h2>Relatório de Vendas</h2>
+                <p><strong>Valor Total:</strong> R$ ${relatorioData.total.toFixed(2)}</p>
+                <p><strong>Quantidade Total:</strong> ${relatorioData.totalQtd}</p>
+                <div class="Container-SPL">
+                    <div class="bloco-SPL"><p><strong>Total em Dinheiro:</strong> </br> R$ ${relatorioData.totalDinheiro.toFixed(2)}</p></div>
+                    <div class="bloco-SPL"><p><strong>Total em Cartão:</strong> </br> R$ ${relatorioData.totalCartao.toFixed(2)}</p></div>
+                    <div class="bloco-SPL"><p><strong>Total em Pix:</strong> </br> R$ ${relatorioData.totalPix.toFixed(2)}</p></div>
+                </div>
+            </div>
+            <div>
+                <h3>Dados por Dia</h3>
+                <ul>
+                    ${relatorioData.dadosPorDia.map((dia) => `
+                        <li>
+                            <strong>${dia.data}:</strong> 
+                            R$ ${dia.valorTotal.toFixed(2)} (Quantidade: ${dia.qtdTotal})
+                        </li>`
+                    ).join('')}
+                </ul>
+            </div>
+        `;
+
+        // Atualiza o conteúdo do modal com o HTML do relatório
+        modalContent.innerHTML = relatorioHTML;
+
+
+        }
+
+        // Evento de clique no botão para abrir o modal
+        document.getElementById('abrirRelatorioBtn').addEventListener('click', function () {
+
+            const alertModalRel = document.getElementById('relatorioModal');
+            alertModalRel.style.display = 'flex';
+
+            // Chama a função para exibir o relatório no modal
+            exibirRelatorioNoModal(relatorioHTML);
+        });
+
+        // Função para imprimir o relatório
+        document.getElementById('PrintRelatorio').addEventListener('click', function () {
+            const conteudoParaImprimir = document.getElementById('relatorioConteudo').innerHTML;
+            const periodoRelatorio = `Período do Relatório: ${document.getElementById('dataInicio').value} a ${document.getElementById('dataFim').value}`;
+            const janelaImprimir = window.open('', '', 'width=800,height=600');
+            janelaImprimir.document.write('<html><head><title>Relatório</title></head><body>');
+            janelaImprimir.document.write(`<h4>${periodoRelatorio}</h4>`);
+            janelaImprimir.document.write(conteudoParaImprimir);
+            janelaImprimir.document.write('</body></html>');
+            janelaImprimir.document.close();
+            janelaImprimir.print();
         });
 
             })
