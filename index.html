@@ -36,6 +36,12 @@
             </a>
           </li>
           <li class="item-menu">
+            <a href="#backAnalise">
+              <span class="icon"><i class="bi bi-bar-chart"></i></span>
+              <span class="txt-link">Análise</span>
+            </a>
+          </li>
+          <li class="item-menu">
             <a href="#backPonto">
               <span class="icon"><i class="bi bi-clock"></i></span>
               <span class="txt-link">Ponto</span>
@@ -137,6 +143,29 @@
     </div>
 </section>
 
+<section class="background-analise corpo" id="backAnalise">
+    <div class="container-home">
+        <div class="barraLateral">
+            <h2>Entregas por Bairro</h2>
+            <div class="listInfo">
+                <div class="bolaEspera"></div> Tempo de Espera
+            </div>
+            <div class="listInfo">
+                <div class="bolaEntrega"></div> Tempo de Entrega
+            </div>
+            <div class="listInfo">
+                <div class="bolaAtendimento"></div> Tempo de Atendimento
+            </div>
+        </div>
+            <div class="analiseEntregas">
+                <div class="graficoAnalise" id="graficoAnalise">
+
+                </div>
+            </div>
+        
+    </div>
+</section>
+
 <section class="background-logado corpo" id="backLogado">
     <div class="container-login">
         <div class="pesquisar2">
@@ -203,6 +232,38 @@
                     </div>
                 </div>
                 <div class="container02">
+                    <!-- Caixa de texto para endereço -->
+                    <div class="caixa_text">
+                        <select id="bairro" placeholder="Bairro">
+                            <option value="Centro">
+                                Centro
+                            </option>
+                            <option value="Vila Redenção">
+                                Vila Redenção
+                            </option>
+                            <option value="Setor Vargem">
+                                Setor Vargem
+                            </option>
+                            <option value="Nova República">
+                                Nova República
+                            </option>
+                            <option value="Parque João">
+                                Parque João
+                            </option>
+                            <option value="Setor Enis">
+                                Setor Enis
+                            </option>
+                            <option value="Setor Mariano">
+                                Setor Mariano
+                            </option>
+                            <option value="Povoado Lagoa">
+                                Povoado Lagoa
+                            </option>
+                            <option value="Setor Rural">
+                                Setor Rural
+                            </option>
+                        </select>
+                    </div>
                     <!-- Caixa de texto para endereço -->
                     <div class="caixa_text">
                         <textarea type="text" id="endereco" placeholder="Endereço"></textarea>

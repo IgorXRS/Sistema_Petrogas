@@ -64,6 +64,7 @@ if(val){
     document.querySelector('.background-ponto').style.display = "flex";
     document.querySelector('.background-comanda').style.display = "flex";
     document.querySelector('.background-home').style.display = "flex";
+    document.querySelector('.background-analise').style.display = "flex";
 
     //Ouvir por mudanças no banco de dados.
 
@@ -137,6 +138,7 @@ e.preventDefault();
         document.querySelector('.background-ponto').style.display = "none";
         document.querySelector('.background-comanda').style.display = "none";
         document.querySelector('.background-home').style.display = "none";
+        document.querySelector('.background-analise').style.display = "none";
             
        //alert('Deslogado');
     }).catch((error) => {

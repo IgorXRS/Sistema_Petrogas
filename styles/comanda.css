@@ -8,6 +8,119 @@
     --corCleanFosc: #e1c7fc;
 }
 
+.barraLateral{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 10px;
+}
+
+.listInfo{
+    color: rgb(170, 170, 170);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.bolaEspera{
+    width: 20px;
+    height: 20px;
+    background: yellow;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.bolaEntrega{
+    width: 20px;
+    height: 20px;
+    background: rgb(255, 0, 212);
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.bolaAtendimento{
+    width: 20px;
+    height: 20px;
+    background: rgb(0, 153, 8);
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.barraLateral > h2{
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.barrasBloco{
+    display: flex;
+    align-items: end;
+    padding: 5px;
+    min-height: 100px;
+    justify-content: center;
+}
+
+.bairroBloco{
+    margin: 10px;
+}
+
+.bairroText{
+    font-size: 15px;
+}
+
+.graficoAnalise{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    align-items: end;
+    border: 1px solid rgb(47, 0, 255);
+    border-radius: 20px;
+    padding: 10px;
+    color: white;
+}
+
+.analiseEntregas {
+    display: flex;
+}
+
+.barraEspera > p, .barraEntrega > p, .barraAtendimento > p{
+    background: #0b0136;
+    width: 60px;
+    font-size: 13px;
+    height: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.barraEspera{
+    width: 60px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background: yellow;
+}
+
+.barraEntrega{
+    width: 60px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background: rgb(255, 0, 212);
+}
+
+.barraAtendimento{
+    width: 60px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background: rgb(0, 153, 8);
+}
+
 .background-comanda{
     width: 100%;
     height: 100%;

@@ -72,6 +72,9 @@ async function geraRecibo() {
     // Adicione a classe de carregamento ao botão
     const botaoGeraRecibo = document.getElementById('botao-gerar-recibo');
     botaoGeraRecibo.classList.add('loading');
+    document.getElementById('backAnalise').style.display = 'none';
+
+
 
     // Aguarde um atraso (por exemplo, 1 segundo)
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -98,6 +101,7 @@ async function geraRecibo() {
     registrarComanda ();
     // Remova a classe de carregamento após a conclusão da lógica
     botaoGeraRecibo.classList.remove('loading');
+    document.getElementById('backAnalise').style.display = 'flex';
 }
 
 // Função para exibir a hora atual
