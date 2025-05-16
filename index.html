@@ -30,6 +30,12 @@
             </a>
           </li>
           <li class="item-menu">
+            <a href="#backPonto">
+              <span class="icon"><i class="bi bi-clock"></i></span>
+              <span class="txt-link">Ponto</span>
+            </a>
+          </li>
+          <li class="item-menu">
             <a href="#backLogado">
               <span class="icon"><i class="bi bi-columns-gap"></i></span>
               <span class="txt-link">Entregas</span>
@@ -39,12 +45,6 @@
             <a href="#backAnalise">
               <span class="icon"><i class="bi bi-bar-chart"></i></span>
               <span class="txt-link">Análise</span>
-            </a>
-          </li>
-          <li class="item-menu">
-            <a href="#backPonto">
-              <span class="icon"><i class="bi bi-clock"></i></span>
-              <span class="txt-link">Ponto</span>
             </a>
           </li>
           <li class="item-menu">
@@ -143,6 +143,81 @@
     </div>
 </section>
 
+<section class="background-ponto corpo" id="backPonto">
+    <div class="container-ponto">
+       <div class="containerVasilhames">
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Fechamento de Caixa - Loja de Gás</title>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+            <link rel="stylesheet" href="styles.css">
+        </head>
+        <body>
+            <div class="dashboard">
+                <div class="bloco" id="vasilhame-vazio">Vasilhame Vazio: <span>0</span></div>
+                <div class="bloco" id="vasilhame-estragado">Vasilhame Estragado: <span>0</span></div>
+                <div class="bloco" id="vasilhame-cheio">Vasilhame Cheio: <span>0</span></div>
+                <div class="bloco" id="total-gas">Total de Gás Vendido: <span>0</span></div>
+            </div>
+        
+            <canvas id="graficoVendas"></canvas>
+        
+            <button id="abrirModal">Registrar Fechamento</button>
+        
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Dinheiro</th>
+                        <th>Cartão</th>
+                        <th>Pix</th>
+                        <th>Crediário</th>
+                        <th>Total Vendido</th>
+                        <th>Vasilhame Vazio</th>
+                        <th>Vasilhame Estragado</th>
+                        <th>Vasilhame Cheio</th>
+                        <th>Gás Chegou</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaFechamento"></tbody>
+            </table>
+        
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <h2>Registrar Fechamento</h2>
+                    <label>Gás Vendido - Dinheiro:</label>
+                    <input type="number" id="gasDinheiro" value="0">
+                    
+                    <label>Gás Vendido - Cartão:</label>
+                    <input type="number" id="gasCartao" value="0">
+                    
+                    <label>Gás Vendido - Pix:</label>
+                    <input type="number" id="gasPix" value="0">
+                    
+                    <label>Gás Vendido - Crediário:</label>
+                    <input type="number" id="gasCrediario" value="0">
+                    
+                    <label>Vasilhames Estragados:</label>
+                    <input type="number" id="vasilhameEstragado" value="0">
+                    
+                    <label>Gás Chegou?</label>
+                    <input type="number" id="gasChegou" value="0">
+                    
+                    <button id="salvarFechamento">Salvar</button>
+                    <button id="fecharModal">Fechar</button>
+                </div>
+            </div>
+    
+       </div>
+    </div><!--container-login-->
+</section><!--background-ponto-->
+
+
 <section class="background-analise corpo" id="backAnalise">
     <div class="container-home">
         <div class="barraLateral">
@@ -178,7 +253,7 @@
     </div><!--container-login-->
 </section><!--background-logado-->
 
-<section class="background-ponto corpo" id="backPonto">
+<section class="background-ponto corpo" id="">
         <div class="container-ponto">
             <div class="tela_ponto">
             <form class="form-cadastro-registro">
